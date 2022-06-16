@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Loader from './components/Loader'
 import Files from './components/Files'
+import Env from './assets/env.json'
 import './App.css'
-
-const api = "https://74f4-162-154-226-2.ngrok.io"
 
 const App = () => {
   const [menu, setMenu] = useState(null)
@@ -19,7 +18,7 @@ const App = () => {
   }, [])
 
   const fetchMenu = async () => {
-    const url = `${api}/menu`
+    const url = `${Env.api_url}/menu`
     const response = await fetch(url)
     const json = await response.json()
     setMenu(json)
@@ -38,7 +37,7 @@ const App = () => {
   }
 
   const fetchVideo = (path) => {
-    const url = `${api}/video?path=${path}` 
+    const url = `${Env.api_url}/video?path=${path}` 
     const fetchData = async () => {
       const response = await fetch(url)
       localStorage.setItem("video", response.url)
@@ -57,9 +56,6 @@ const App = () => {
     setVideoUrl("")
     localStorage.removeItem("video")
   }
-
-
-  console.log(process.env.API_URL)
 
   if (!isLoaded) {
     return (
