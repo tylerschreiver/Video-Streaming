@@ -3,7 +3,7 @@ import Loader from './components/Loader'
 import Files from './components/Files'
 import './App.css'
 
-const api = "https://55d8-162-154-226-2.ngrok.io"
+const api = "https://74f4-162-154-226-2.ngrok.io"
 
 const App = () => {
   const [menu, setMenu] = useState(null)
@@ -57,6 +57,9 @@ const App = () => {
     setVideoUrl("")
     localStorage.removeItem("video")
   }
+
+
+  console.log(process.env.API_URL)
 
   if (!isLoaded) {
     return (
