@@ -1,0 +1,38 @@
+.loader-wrapper {
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  height: 100%
+}
+
+.go-back {
+  font-size: 20px;
+  color: #cccccc;
+  cursor: pointer;
+  border: 1px solid #777;
+  padding: 10px;
+  border-radius: 7px;
+}
+
+.go-back-wrapper {
+  width: 90%;
+  align-self: center;
+}
+
+.video-wrapper {
+  height: 100%;
+}
+
+.video-holder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding-top: 20px;
+}
+
+video {
+  width: 90% !important;
+  height: auto !important;
+  margin-top: 20px;
+}

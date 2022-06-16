@@ -1,0 +1,22 @@
+.file {
+  border: 1px solid #777;
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
+  display: flex;
+  border-radius: 7px;
+  flex-direction: row;
+  cursor: pointer;
+}
+
+.file-icon {
+  height: 20px;
+  width: 20px;
+  fill: #ccc;
+  margin-right: 10px;
+}
+
+.file-text {
+  color: #aaa;
+}
