@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Loader from './components/Loader'
 import Files from './components/Files'
+import Video from './components/Video'
+import Header from './components/Header';
 import Env from './assets/env.json'
 import './App.css'
 
@@ -9,8 +11,8 @@ const App = () => {
   const [videoUrl, setVideoUrl] = useState("")
   const [path, setPath] = useState([])
 
-  const isLoaded = menu != null
-  const showVideo = videoUrl != ""
+  const isLoaded = menu !== null
+  const showVideo = videoUrl !== ""
 
   useEffect(() => {
     fetchMenu()
@@ -37,7 +39,7 @@ const App = () => {
   }
 
   const fetchVideo = (path) => {
-    const url = `${Env.api_url}/video?path=${path}` 
+    const url = `${Env.api_url}/video?path=${path}`
     const fetchData = async () => {
       const response = await fetch(url)
       localStorage.setItem("video", response.url)
@@ -57,32 +59,28 @@ const App = () => {
     localStorage.removeItem("video")
   }
 
+  const headerClick = () => {
+    exitVideo()
+    setPath([])
+  }
+
   if (!isLoaded) {
     return (
       <div className="loader-wrapper">
-        <Loader />    
+        <Loader />
       </div>
     );
   } else if (showVideo) {
-    return (
-      <div className="video-wrapper">
-        <div className="video-holder">
-        <div className="go-back-wrapper">
-          <span className="go-back" onClick={() => exitVideo()}>
-            Go Back
-          </span>
-        </div>
-          <video className="video" type="video/webm" controls autoPlay src={videoUrl}>
-            {/* <source src={videoUrl} /> */}
-          </video>
-        </div>
-      </div>
-    )
+    return <div className="body-wrapper">
+      <Header headerClick={headerClick} />
+      <Video exitVideo={exitVideo} videoUrl={videoUrl} />
+    </div>
   } else {
     return (
-      <div>
+      <div className="body-wrapper">
+      <Header headerClick={headerClick} />
         <Files
-          menu={menu.menu} 
+          menu={menu.menu}
           fetchVideo={(path) => fetchVideo(path)}
           path={path}
           setPath={path => savePath(path)}

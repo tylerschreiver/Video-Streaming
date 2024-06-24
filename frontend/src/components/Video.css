@@ -1,0 +1,38 @@
+.go-back {
+    font-size: 20px;
+    color: #cccccc;
+    cursor: pointer;
+    border: 1px solid #777;
+    padding: 10px;
+    border-radius: 7px;
+}
+  
+.go-back-wrapper {
+    width: 90%;
+    align-self: center;
+}
+  
+.video-wrapper {
+    height: 100%;
+}
+  
+.video-holder {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+}
+  
+video {
+    flex: 1;
+    max-height: calc(100% - 75px);
+    max-width: calc(100% - 75px);
+}
+
+.back-arrow {
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    left: 30px;
+    top: 30px;
+}  

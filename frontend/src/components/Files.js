@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { ReactComponent as Folder } from '../assets/folder-solid.svg'
 import { ReactComponent as Video } from '../assets/circle-play-solid.svg'
 import './Files.css'
@@ -9,6 +8,11 @@ const Files = ({ menu, fetchVideo, path, setPath }) => {
   path.forEach(file => {
     currentDir = currentDir[file]
   })
+
+  // prevent error if path is broken (eg: folder name changes)
+  if (currentDir === undefined || currentDir === null) {
+    setPath([])
+  }
   
   let folders = Object.keys(currentDir)
   let videos = currentDir.videos
@@ -26,7 +30,7 @@ const Files = ({ menu, fetchVideo, path, setPath }) => {
   }
   
   const renderFolder = file => {
-    if (file == "videos") return null
+    if (file === "videos") return null
     return (
       <div className="file" key={file} onClick={() => addToPath(file)}>
         <Folder className="file-icon"/>
@@ -43,7 +47,8 @@ const Files = ({ menu, fetchVideo, path, setPath }) => {
     })
 
     url += file
-    fetchVideo(url)
+    // fetchVideo(url)
+    fetchVideo(encodeURI(url))
   }
 
   const renderVideo = file => {
@@ -56,7 +61,7 @@ const Files = ({ menu, fetchVideo, path, setPath }) => {
   }
 
   const renderGoBack = () => {
-    if (path.length == 0) return null
+    if (path.length === 0) return null
     else return (
       <div className="file" onClick={() => goBack()}>
         <span className="file-text">..</span>
@@ -65,10 +70,10 @@ const Files = ({ menu, fetchVideo, path, setPath }) => {
   }
 
   return (
-    <div style={{ paddingTop: "10px" }}>
+    <div className="files-wrapper">
       {renderGoBack()}
       {folders.map((file) => renderFolder(file))}
-      {videos.map((file) => renderVideo(file))}
+      {videos && videos.length && videos.map((file) => renderVideo(file))}
     </div>
   )
 }
