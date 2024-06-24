@@ -1,0 +1,12 @@
+.header-wrapper {
+    height: 75px;
+  }
+  
+  .header {
+    color: #ddd;
+    margin-left: 10px;
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+  

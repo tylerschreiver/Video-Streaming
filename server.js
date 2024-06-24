@@ -3,17 +3,22 @@ const fs = require("fs")
 
 const server = http.createServer((req, res) => {
   const path = req.url
-  const menuPath = "E:\\TV"
+  const menuPath = "Z:\\Videos"
+  const tvPath = "Z:\\Videos\\TV"
+  const moviePath = "Z:\\Videos\\Movies"
 
-  if (path == "/menu") {
+  if (path === "/menu") {
     const menu = { videos: [] }
-    readFolder(menuPath, menu)
+    const menu2 = { videos: [] }
+    readFolder(tvPath, menu)
+    readFolder(moviePath, menu2)
     res.writeHead(200, { "Access-Control-Allow-Origin": "*" })
-    res.write(JSON.stringify({ menu: menu }))
+    res.write(JSON.stringify({ menu: { TV: menu, Movies: menu2 } }))
     res.end()
   }
 
   if (path.startsWith("/video")) {
+    console.log('fetch video')
     const video = decodeURI(path).split("/video?path=")[1]
     const videoPath = menuPath + "\\" +  video
     const fileExists = fs.existsSync(videoPath)
@@ -66,23 +71,29 @@ const server = http.createServer((req, res) => {
 })
 
 server.listen(8080, () => {
-  console.log('Example app listening on port 8080!')
+  console.log('Video streaming backend listening on port 8080!')
 });
-
-
 
 const readFolder = (path, obj) => {
   const isDirectory = fs.statSync(path).isDirectory()
   if (isDirectory) {
     fs.readdirSync(path).forEach(file => {
       const isFolder = fs.statSync(path + "\\" + file).isDirectory()
-      const isVideo = file.endsWith(".mp4") || file.endsWith(".mkv") || file.endsWith(".avi")
-      if (!isFolder && isVideo) obj["videos"].push(file)
-      else if (isFolder) {
+      const isVideo = file.endsWith(".mp4") || file.endsWith(".mkv")
+
+      if (!isFolder && isVideo) { // video found
+        obj["videos"].push(file)
+      } else if (isFolder) { // folder found
         const newObj = { videos: [] }
-        obj[file] = readFolder(path + "\\" + file, newObj)
+        obj[file] = readFolder(path + "\\" + file, newObj) // recursively search through folder's subfolders
+
+        // removes folders that do not have any videos and do not have subfolders
+        if (obj[file].videos.length === 0 && Object.keys(obj[file]).length === 1) {
+          delete obj[file]
+        }
       }
     })
   }
+
   return obj
 }

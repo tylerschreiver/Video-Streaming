@@ -20,3 +20,7 @@
 .file-text {
   color: #aaa;
 }
+
+.files-wrapper {
+  overflow-y: auto;
+}
